@@ -194,12 +194,5 @@ public:
 			}
 		}
 		return is;
-	}
-     
-
-	
-
-
-
-	//Zdarova zaebal
+	}	
 };
