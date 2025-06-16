@@ -58,6 +58,14 @@ int main()
 	SetOfIntegers set2={1,2,9,4,5,11};
 	SetOfIntegers set3;
 	SetOfIntegers set_For_Testing_Copy(set2);
+	//set3.PrintSet();	
+	//set3=set1-set2;
+	//set3.PrintSet();
+
+	cout << (set1 == set2);
+
+	//set3=set1*set2;
+	//set3.PrintSet();
 
 	//set1.Comparison_Of_Sets(set2) ? cout<< "Равны" : cout<<"Не равны";
 	//set1.PrintSet();
@@ -97,4 +105,4 @@ int main()
 	//for (int n : vtoroy) {
 	//	cout << n << "  ";
 	//}
-}
+ }

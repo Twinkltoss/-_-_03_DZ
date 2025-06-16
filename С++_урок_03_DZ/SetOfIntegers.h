@@ -30,38 +30,25 @@ public:
 		set = tmp;
 	}
 	void Add_Element(int elem) {
-		int count = 0;
+		bool flag= false;
 		for (int i = 0; i < set.size(); i++) {
 			if (set[i] == elem) {
-				count++;								
+				flag =true;								
 			}			
 		}
-		if (count>0)
-		{
-			cout << "\nElement ("<<elem<<") already exist in set!";
-		}
-		else {
-			set.push_back(elem);
-			cout << "\nElement (" << elem << ") was added to set!";
-		}
+		if (!flag)set.push_back(elem);
 	}
 	void Remove_Element(int elem) {	
 		int tmp = 0;
 		bool flag = false;
 		auto iter = set.begin();
-		for (int i = 1; i < set.size(); i++) {
+		for (int i = 0; i < set.size(); i++) {
 			if (set[i] == elem) {
 				tmp = i;
 				flag = true;
 			}			
 		}
-		if (flag) {
-			set.erase(iter + tmp);
-			cout << "\nElement (" << elem << ") was removed!";
-		}
-		else {
-			cout << "\nElement (" << elem << ") don't exist in set!";
-		}
+		if (flag)set.erase(iter + tmp);		
 	}
 	bool Comparison_Of_Sets(SetOfIntegers& other) {
 		if (this->set.size() != other.set.size())return false;
@@ -83,8 +70,8 @@ public:
 		}
 		Doubless();
 	}
-	void Intersection_Of_Sets(SetOfIntegers& obj,SetOfIntegers& other) {				
-		for (int elemObj : obj.set){
+	void Intersection_Of_Sets(SetOfIntegers& other) {				
+		for (int elemObj : set){
 			for (int elemOther : other.set){
 				if (elemObj == elemOther) {
 					set.push_back(elemObj);
@@ -92,8 +79,8 @@ public:
 			}
 		}		
 	}
-	void Difference_Of_Sets(SetOfIntegers& obj, SetOfIntegers& other) {
-		for (int elemObj : obj.set) {
+	void Difference_Of_Sets(SetOfIntegers& other) {
+		for (int elemObj :set) {
 			bool flag = false;
 			for (int elemOther : other.set) {
 				if (elemObj == elemOther) {
@@ -122,6 +109,97 @@ public:
 		}		
 		else cout << "Set of intrgers is empty!"<< endl;;
 	}
+	SetOfIntegers operator+(int elem) {
+		Add_Element(elem);
+		return *this;
+	}
+	SetOfIntegers operator+=(int elem) {
+		Add_Element(elem);		
+		return *this;
+	}	
+	SetOfIntegers operator+(SetOfIntegers& other) {
+		Union_Of_Sets(other);
+		return *this;
+	}
+	SetOfIntegers operator+=(SetOfIntegers& other) {
+		Union_Of_Sets(other);
+		return *this;
+	}
+	SetOfIntegers operator-(int elem) {
+		Remove_Element(elem);
+		return *this;
+	}
+	SetOfIntegers operator-=(int elem) {
+		Remove_Element(elem);
+		return *this;
+	}
+	SetOfIntegers operator-=(const SetOfIntegers& other) {
+		for (const auto& el : other.set) {
+			Remove_Element(el);
+		}
+		return *this;
+	}
+	SetOfIntegers operator-(const SetOfIntegers& other) {
+		SetOfIntegers result = *this;
+		result -= other;
+		return result;
+	}
+	SetOfIntegers operator*=(SetOfIntegers& other) {
+		vector<int>tmp;
+		for (int elemObj : set) {
+			for (int elemOther : other.set) {
+				if (elemObj == elemOther) {
+					tmp.push_back(elemObj);
+				}
+			}
+		}
+		set = tmp;
+		return *this;
+	}
+	SetOfIntegers operator*(SetOfIntegers& other) {
+		SetOfIntegers temp = *this;
+		temp *= other;
+		return temp;
+	}
+	bool operator==(SetOfIntegers& other) {
+		return Comparison_Of_Sets(other);
+	}
+	friend ostream& operator<<(ostream& os, const SetOfIntegers& other) {
+		os << "{ ";
+		for (size_t i = 0; i < other.set.size(); ++i) {
+			os << other.set[i];
+			if (i != other.set.size() - 1) {
+				os << ", ";
+			}
+		}
+		os << " }";
+		return os;
+	}
+	friend istream& operator>>(std::istream& is, SetOfIntegers& other) {
+		int element;
+		char ch;
+		other.set.clear();		
+		is >> ch;
+		if (ch != '{') {
+			is.setstate(std::ios::failbit);
+			return is;
+		}		
+		while (is >> element) {
+			other += element; 
+			is >> ch;
+			if (ch == '}') break;
+			if (ch != ',') {
+				is.setstate(std::ios::failbit);
+				break;
+			}
+		}
+		return is;
+	}
+     
+
+	
+
+
 
 	//Zdarova zaebal
 };
